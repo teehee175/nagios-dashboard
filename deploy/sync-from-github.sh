@@ -1,6 +1,6 @@
 #!/bin/bash
 # Nagios Dashboard - GitHub Sync Script
-# This script pulls latest changes from GitHub and rebuilds the dashboard
+# This script pulls latest changes from GitHub (pre-built dist included)
 #
 # Setup as cron job for automatic updates:
 #   crontab -e
@@ -33,14 +33,10 @@ fi
 
 echo "$LOG_PREFIX Updates found. Pulling changes..."
 
-# Pull changes
+# Pull changes (dist folder is pre-built and included in repo)
 git pull origin "$BRANCH" --quiet
 
-echo "$LOG_PREFIX Installing dependencies..."
-npm ci --silent
+# Restore SELinux context on updated files
+restorecon -Rv "$DEPLOY_DIR/dist" 2>/dev/null || true
 
-echo "$LOG_PREFIX Building dashboard..."
-npm run build --silent
-
-echo "$LOG_PREFIX Build complete. New version deployed."
-echo "$LOG_PREFIX Commit: $(git rev-parse --short HEAD)"
+echo "$LOG_PREFIX Updated to commit: $(git rev-parse --short HEAD)"

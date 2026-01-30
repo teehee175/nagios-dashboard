@@ -16,7 +16,7 @@ A modern React-based dashboard for Nagios Core 4.4.1, providing a clean, respons
 
 ## Requirements
 
-- **Node.js 18+** and npm
+- **Node.js 16+** and npm (Node 16 for CentOS 7, Node 18+ for CentOS 8/RHEL 8+)
 - **Apache (httpd)** with mod_proxy and mod_rewrite
 - **Nagios Core** with CGI access enabled (typically on same server)
 
@@ -39,31 +39,34 @@ npm run dev
 ### 1. Install Prerequisites
 
 ```bash
-# Install Node.js 18
-curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
+# Install Node.js
+# For CentOS 7 (use Node 16 - last version with glibc 2.17 support):
+curl -fsSL https://rpm.nodesource.com/setup_16.x | bash -
+
+# For CentOS 8/RHEL 8+ (use Node 18):
+# curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
+
 yum install -y nodejs git
 
 # Apache (httpd) should already be installed with Nagios
 # Verify installations
-node --version  # Should be v18.x.x
+node --version  # Should be v16.x.x or v18.x.x
 httpd -v
 ```
 
-### 2. Clone and Build
+### 2. Clone Repository
 
 ```bash
 # Create deployment directory
 mkdir -p /var/www
 cd /var/www
 
-# Clone repository
-git clone https://github.com/YOUR_USERNAME/nagios-dashboard.git
+# Clone repository (dist folder is pre-built, no Node.js needed on server)
+git clone https://github.com/teehee175/nagios-dashboard.git
 cd nagios-dashboard
-
-# Install dependencies and build
-npm ci
-npm run build
 ```
+
+> **Note:** The `dist/` folder is pre-built and included in the repository for CentOS 7 compatibility (Vite requires Node 20+, but CentOS 7 only supports Node 16). No build step needed on the server.
 
 ### 3. Configure Apache (httpd)
 

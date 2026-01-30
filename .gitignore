@@ -1,8 +1,9 @@
 # Dependencies
 node_modules/
 
-# Build output (rebuild on server)
-dist/
+# Build output - INCLUDED in repo for CentOS 7 compatibility
+# (Vite 7 requires Node 20+, CentOS 7 only supports Node 16)
+# dist/
 dist-ssr/
 
 # Environment variables (may contain credentials)
