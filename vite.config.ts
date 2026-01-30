@@ -7,6 +7,8 @@ export default defineConfig(({ mode }) => {
 
   return {
     plugins: [react()],
+    // Base path for production - served at /nagios/warboard
+    base: '/nagios/warboard/',
     server: {
       host: env.VITE_APP_HOST || 'localhost',
       port: parseInt(env.VITE_APP_PORT || '5173'),
