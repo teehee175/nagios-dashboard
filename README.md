@@ -17,8 +17,8 @@ A modern React-based dashboard for Nagios Core 4.4.1, providing a clean, respons
 ## Requirements
 
 - **Node.js 18+** and npm
-- **Nginx** (for production deployment)
-- **Nagios Core** with CGI access enabled
+- **Apache (httpd)** with mod_proxy and mod_rewrite
+- **Nagios Core** with CGI access enabled (typically on same server)
 
 ## Quick Start (Development)
 
@@ -43,13 +43,10 @@ npm run dev
 curl -fsSL https://rpm.nodesource.com/setup_18.x | bash -
 yum install -y nodejs git
 
-# Install nginx (if not already installed)
-yum install -y epel-release
-yum install -y nginx
-
+# Apache (httpd) should already be installed with Nagios
 # Verify installations
 node --version  # Should be v18.x.x
-nginx -v
+httpd -v
 ```
 
 ### 2. Clone and Build
@@ -68,28 +65,31 @@ npm ci
 npm run build
 ```
 
-### 3. Configure Nginx
+### 3. Configure Apache (httpd)
 
 ```bash
-# Copy nginx config
-cp deploy/nginx.conf /etc/nginx/conf.d/nagios-dashboard.conf
+# Enable required modules (if not already enabled)
+# These are typically enabled by default on CentOS/RHEL
+# mod_proxy, mod_proxy_http, mod_rewrite, mod_headers
 
-# Edit the config to set your Nagios server URL
-vi /etc/nginx/conf.d/nagios-dashboard.conf
-# Change proxy_pass under location /nagios/ to your Nagios server
+# Copy Apache config
+cp deploy/httpd.conf /etc/httpd/conf.d/nagios-dashboard.conf
 
-# Test and reload nginx
-nginx -t
-systemctl reload nginx
+# Edit the config if needed (default assumes same server as Nagios)
+vi /etc/httpd/conf.d/nagios-dashboard.conf
+
+# Test and reload Apache
+httpd -t
+systemctl reload httpd
 ```
 
 ### 4. Configure SELinux (if enabled)
 
 ```bash
-# Allow nginx to make network connections (for proxying to Nagios)
+# Allow Apache to make network connections (for proxying)
 setsebool -P httpd_can_network_connect 1
 
-# If serving from non-standard directory
+# Set correct SELinux context for the dashboard files
 semanage fcontext -a -t httpd_sys_content_t "/var/www/nagios-dashboard/dist(/.*)?"
 restorecon -Rv /var/www/nagios-dashboard/dist
 ```
@@ -109,45 +109,59 @@ crontab -e
 */5 * * * * /var/www/nagios-dashboard/deploy/sync-from-github.sh >> /var/log/nagios-dashboard-sync.log 2>&1
 ```
 
-### 6. Access the Dashboard
+### 6. Open Firewall Port (if needed)
 
-Open your browser to: `http://your-server-ip/`
+```bash
+# If using firewalld
+firewall-cmd --permanent --add-port=8080/tcp
+firewall-cmd --reload
+```
+
+### 7. Access the Dashboard
+
+Open your browser to: `http://your-server-ip:8080/`
 
 ## Configuration
 
 ### Environment Variables
 
-Create a `.env` file in the project root (optional):
+Copy `.env.example` to `.env` and adjust values:
+
+```bash
+cp .env.example .env
+vi .env
+```
 
 ```env
-# Nagios API endpoint (relative to proxy)
+# Nagios Server (default: same server)
+VITE_NAGIOS_BASE_URL=http://localhost/nagios
+
+# Nagios API endpoint
 VITE_NAGIOS_STATUS_API=/cgi-bin/status.cgi?host=all&sorttype=2&sortoption=3&limit=0
 
 # Refresh interval in seconds
 VITE_REFRESH_INTERVAL=90
 ```
 
-### Nginx Proxy Configuration
+### Apache Proxy Configuration
 
-The default nginx config proxies `/nagios/` requests to `http://127.0.0.1:8080/nagios/`.
+The default httpd config assumes Nagios runs on the same server and proxies `/nagios/` to `http://127.0.0.1/nagios/`.
 
-**If Nagios is on a different server**, edit `/etc/nginx/conf.d/nagios-dashboard.conf`:
+**If Nagios is on a different server**, edit `/etc/httpd/conf.d/nagios-dashboard.conf`:
 
-```nginx
-location /nagios/ {
-    proxy_pass http://nagios-server.example.com/nagios/;
-    # ... rest of config
-}
+```apache
+ProxyPass /nagios/ http://nagios-server.example.com/nagios/
+ProxyPassReverse /nagios/ http://nagios-server.example.com/nagios/
 ```
 
-**If Nagios requires authentication**, the dashboard passes through browser authentication headers. Configure your browser to authenticate with Nagios.
+**If Nagios requires authentication**, the dashboard passes through browser authentication headers. Your browser will prompt for Nagios credentials.
 
 ## Directory Structure
 
 ```
 nagios-dashboard/
 ├── deploy/
-│   ├── nginx.conf           # Nginx configuration template
+│   ├── httpd.conf           # Apache configuration template
 │   └── sync-from-github.sh  # Auto-sync script for live updates
 ├── src/
 │   ├── components/          # React components
@@ -171,16 +185,16 @@ nagios-dashboard/
 
 ### Dashboard shows "Error fetching status"
 
-1. Check nginx is running: `systemctl status nginx`
-2. Check nginx can reach Nagios: `curl -I http://localhost/nagios/`
+1. Check Apache is running: `systemctl status httpd`
+2. Check Apache can reach Nagios: `curl -I http://localhost/nagios/`
 3. Check SELinux: `getsebool httpd_can_network_connect`
-4. Check nginx logs: `tail -f /var/log/nginx/nagios-dashboard-error.log`
+4. Check Apache logs: `tail -f /var/log/httpd/nagios-dashboard-error.log`
 
 ### Blank page / JavaScript errors
 
 1. Verify build completed: `ls -la /var/www/nagios-dashboard/dist/`
 2. Check browser console for errors
-3. Ensure index.html is being served: `curl http://localhost/`
+3. Ensure index.html is being served: `curl http://localhost:8080/`
 
 ### Sync script not working
 
