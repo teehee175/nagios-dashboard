@@ -1,0 +1,128 @@
+.windows-update-panel {
+  background: #1e1e2e;
+  border-radius: 4px;
+  padding: 4px;
+  min-width: 140px;
+  max-width: 160px;
+  font-size: 0.55rem;
+  height: fit-content;
+}
+
+.wu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2px 4px;
+  border-bottom: 1px solid #313244;
+  margin-bottom: 4px;
+}
+
+.wu-title {
+  font-weight: 600;
+  color: #cdd6f4;
+  font-size: 0.6rem;
+}
+
+.wu-count {
+  background: #313244;
+  color: #6c7086;
+  padding: 1px 4px;
+  border-radius: 2px;
+  font-size: 0.5rem;
+}
+
+.wu-section {
+  margin-bottom: 4px;
+}
+
+.wu-section-header {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  padding: 2px 4px;
+  font-weight: 600;
+  font-size: 0.5rem;
+  border-radius: 2px;
+}
+
+.wu-section.critical .wu-section-header {
+  background: rgba(243, 139, 168, 0.15);
+  color: #f38ba8;
+}
+
+.wu-section.warning .wu-section-header {
+  background: rgba(249, 226, 175, 0.15);
+  color: #f9e2af;
+}
+
+.wu-section.optional .wu-section-header {
+  background: rgba(137, 180, 250, 0.1);
+  color: #89b4fa;
+}
+
+.wu-section.ok .wu-section-header {
+  background: rgba(166, 227, 161, 0.1);
+  color: #a6e3a1;
+}
+
+.wu-section-icon {
+  font-size: 0.5rem;
+}
+
+.wu-list {
+  padding: 2px 0;
+}
+
+.wu-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1px 4px 1px 12px;
+  color: #a6adc8;
+  cursor: default;
+  border-radius: 2px;
+  line-height: 1.3;
+}
+
+.wu-item:hover {
+  background: rgba(255, 255, 255, 0.05);
+}
+
+.wu-item.critical {
+  border-left: 2px solid #f38ba8;
+}
+
+.wu-item.warning {
+  border-left: 2px solid #f9e2af;
+}
+
+.wu-item.optional {
+  border-left: 2px solid #89b4fa;
+}
+
+.wu-host {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  flex: 1;
+}
+
+.wu-badge {
+  background: #313244;
+  color: #cdd6f4;
+  padding: 0 3px;
+  border-radius: 2px;
+  font-size: 0.45rem;
+  font-weight: 600;
+  margin-left: 3px;
+}
+
+.wu-item.critical .wu-badge {
+  background: rgba(243, 139, 168, 0.2);
+  color: #f38ba8;
+}
+
+.wu-item.optional .wu-badge {
+  background: rgba(137, 180, 250, 0.15);
+  color: #89b4fa;
+}

@@ -1,0 +1,147 @@
+.status-summary {
+  background: #1e1e2e;
+  border-radius: 4px;
+  padding: 4px 6px;
+  margin-bottom: 4px;
+}
+
+.summary-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.summary-header h2 {
+  margin: 0;
+  color: #cdd6f4;
+  font-size: 0.8rem;
+}
+
+.last-updated {
+  color: #6c7086;
+  font-size: 0.6rem;
+}
+
+.summary-cards {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 4px;
+}
+
+.summary-section {
+  background: #181825;
+  border-radius: 4px;
+  padding: 4px 6px;
+}
+
+.summary-section h3 {
+  margin: 0 0 4px 0;
+  color: #bac2de;
+  font-size: 0.65rem;
+  font-weight: 600;
+}
+
+.totals-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 4px;
+  margin-bottom: 4px;
+}
+
+.totals-grid.services {
+  grid-template-columns: repeat(5, 1fr);
+}
+
+.total-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2px;
+  border-radius: 3px;
+  transition: transform 0.2s;
+}
+
+.total-card:hover {
+  transform: translateY(-1px);
+}
+
+.total-card .count {
+  font-size: 0.8rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.total-card .label {
+  font-size: 0.5rem;
+  margin-top: 1px;
+  opacity: 0.9;
+}
+
+.total-card.up {
+  background: rgba(166, 227, 161, 0.15);
+  color: #a6e3a1;
+}
+
+.total-card.ok {
+  background: rgba(166, 227, 161, 0.15);
+  color: #a6e3a1;
+}
+
+.total-card.down {
+  background: rgba(243, 139, 168, 0.15);
+  color: #f38ba8;
+}
+
+.total-card.critical {
+  background: rgba(243, 139, 168, 0.15);
+  color: #f38ba8;
+}
+
+.total-card.warning {
+  background: rgba(249, 226, 175, 0.15);
+  color: #f9e2af;
+}
+
+.total-card.unknown {
+  background: rgba(203, 166, 247, 0.15);
+  color: #cba6f7;
+}
+
+.total-card.unreachable {
+  background: rgba(250, 179, 135, 0.15);
+  color: #fab387;
+}
+
+.total-card.pending {
+  background: rgba(137, 180, 250, 0.15);
+  color: #89b4fa;
+}
+
+.total-bar {
+  display: flex;
+  justify-content: space-between;
+  padding-top: 2px;
+  border-top: 1px solid #313244;
+  font-size: 0.55rem;
+}
+
+.total-bar .problems {
+  color: #f38ba8;
+}
+
+.total-bar .total {
+  color: #6c7086;
+}
+
+@media (max-width: 600px) {
+  .totals-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .totals-grid.services {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

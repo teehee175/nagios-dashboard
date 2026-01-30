@@ -1,0 +1,402 @@
+.service-table-container {
+  background: #1e1e2e;
+  border-radius: 4px;
+  padding: 4px;
+}
+
+.table-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.filter-buttons {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  padding: 2px 6px;
+  border: 1px solid #313244;
+  border-radius: 2px;
+  background: #181825;
+  color: #cdd6f4;
+  cursor: pointer;
+  font-size: 0.6rem;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  background: #313244;
+}
+
+.filter-btn.active {
+  background: #45475a;
+  border-color: #585b70;
+}
+
+.filter-btn.critical.active {
+  background: rgba(243, 139, 168, 0.2);
+  border-color: #f38ba8;
+  color: #f38ba8;
+}
+
+.filter-btn.warning.active {
+  background: rgba(249, 226, 175, 0.2);
+  border-color: #f9e2af;
+  color: #f9e2af;
+}
+
+.filter-btn.unknown.active {
+  background: rgba(203, 166, 247, 0.2);
+  border-color: #cba6f7;
+  color: #cba6f7;
+}
+
+.filter-btn.ok.active {
+  background: rgba(166, 227, 161, 0.2);
+  border-color: #a6e3a1;
+  color: #a6e3a1;
+}
+
+.table-actions {
+  display: flex;
+  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.expand-btn {
+  padding: 2px 5px;
+  border: 1px solid #313244;
+  border-radius: 2px;
+  background: #181825;
+  color: #6c7086;
+  cursor: pointer;
+  font-size: 0.55rem;
+  transition: all 0.2s;
+}
+
+.expand-btn:hover {
+  background: #313244;
+  color: #cdd6f4;
+}
+
+.search-input {
+  padding: 2px 6px;
+  border: 1px solid #313244;
+  border-radius: 2px;
+  background: #181825;
+  color: #cdd6f4;
+  font-size: 0.6rem;
+  min-width: 150px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: #89b4fa;
+}
+
+.search-input::placeholder {
+  color: #6c7086;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+}
+
+.service-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.6rem;
+}
+
+.service-table th {
+  background: #181825;
+  color: #bac2de;
+  font-weight: 600;
+  text-align: left;
+  padding: 1px 3px;
+  border-bottom: 1px solid #313244;
+  position: sticky;
+  top: 0;
+  white-space: nowrap;
+  cursor: pointer;
+  user-select: none;
+}
+
+.service-table th:hover {
+  background: #252536;
+}
+
+.service-table th .sort-indicator {
+  margin-left: 2px;
+  opacity: 0.5;
+  font-size: 0.55rem;
+}
+
+.service-table th .sort-indicator.active {
+  opacity: 1;
+}
+
+.service-table td {
+  padding: 0px 3px;
+  border-bottom: 1px solid #252535;
+  color: #cdd6f4;
+  line-height: 1.15;
+}
+
+/* Expand column */
+.expand-col {
+  width: 14px;
+}
+
+.expand-cell {
+  width: 14px;
+  text-align: center;
+}
+
+.expand-icon {
+  display: inline-block;
+  transition: transform 0.2s;
+  color: #6c7086;
+  font-size: 0.5rem;
+}
+
+.expand-icon.expanded {
+  transform: rotate(90deg);
+}
+
+/* Host row styles */
+.host-row {
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.host-row:hover {
+  background: rgba(137, 180, 250, 0.08) !important;
+}
+
+.host-row.status-critical {
+  background: rgba(243, 139, 168, 0.1);
+  border-left: 2px solid #f38ba8;
+}
+
+.host-row.status-warning {
+  background: rgba(249, 226, 175, 0.1);
+  border-left: 2px solid #f9e2af;
+}
+
+.host-row.status-unknown {
+  background: rgba(203, 166, 247, 0.1);
+  border-left: 2px solid #cba6f7;
+}
+
+.host-row.status-ok {
+  background: rgba(166, 227, 161, 0.05);
+  border-left: 2px solid #a6e3a1;
+}
+
+.host-row.status-pending {
+  background: rgba(137, 180, 250, 0.05);
+  border-left: 2px solid #89b4fa;
+}
+
+/* Service row styles */
+.service-row {
+  background: #181825;
+}
+
+.service-row:hover {
+  background: #1e1e2e !important;
+}
+
+.service-row.status-critical {
+  background: rgba(243, 139, 168, 0.05);
+}
+
+.service-row.status-warning {
+  background: rgba(249, 226, 175, 0.05);
+}
+
+.service-row.status-unknown {
+  background: rgba(203, 166, 247, 0.05);
+}
+
+.service-name {
+  padding-left: 8px;
+}
+
+.service-count {
+  color: #6c7086;
+  font-size: 0.55rem;
+}
+
+.host-cell {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 4px;
+}
+
+.host-name {
+  font-weight: 500;
+}
+
+.host-ip {
+  font-size: 0.55rem;
+  color: #6c7086;
+  font-weight: 400;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0px 3px;
+  border-radius: 2px;
+  font-weight: 600;
+  font-size: 0.5rem;
+  text-transform: uppercase;
+}
+
+.status-badge .attempt {
+  font-weight: 400;
+  font-size: 0.5rem;
+  opacity: 0.8;
+}
+
+.status-badge.critical {
+  background: rgba(243, 139, 168, 0.2);
+  color: #f38ba8;
+}
+
+.status-badge.warning {
+  background: rgba(249, 226, 175, 0.2);
+  color: #f9e2af;
+}
+
+.status-badge.unknown {
+  background: rgba(203, 166, 247, 0.2);
+  color: #cba6f7;
+}
+
+.status-badge.ok {
+  background: rgba(166, 227, 161, 0.2);
+  color: #a6e3a1;
+}
+
+.status-badge.pending {
+  background: rgba(137, 180, 250, 0.2);
+  color: #89b4fa;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.status-info {
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.status-info:hover {
+  white-space: normal;
+  word-break: break-word;
+}
+
+.no-results {
+  text-align: center;
+  padding: 20px;
+  color: #6c7086;
+  font-size: 0.7rem;
+}
+
+.table-footer {
+  margin-top: 4px;
+  text-align: right;
+  color: #6c7086;
+  font-size: 0.6rem;
+}
+
+.action-col {
+  width: 20px;
+  text-align: center;
+}
+
+.action-cell {
+  text-align: center;
+}
+
+.refresh-service-btn {
+  width: 16px;
+  height: 16px;
+  padding: 0;
+  border: 1px solid #313244;
+  border-radius: 2px;
+  background: #181825;
+  color: #89b4fa;
+  cursor: pointer;
+  font-size: 0.6rem;
+  transition: all 0.2s;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refresh-service-btn:hover:not(:disabled) {
+  background: #313244;
+  border-color: #89b4fa;
+}
+
+.refresh-service-btn:disabled {
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.refresh-service-btn.refreshing {
+  background: rgba(166, 227, 161, 0.2);
+  border-color: #a6e3a1;
+  color: #a6e3a1;
+}
+
+.refresh-icon {
+  display: inline-block;
+  font-weight: bold;
+}
+
+.refresh-icon.spinning {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 768px) {
+  .table-controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .table-actions {
+    justify-content: center;
+  }
+
+  .search-input {
+    min-width: 100%;
+  }
+
+  .filter-buttons {
+    justify-content: center;
+  }
+}
